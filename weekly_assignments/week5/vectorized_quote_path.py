@@ -232,7 +232,7 @@ def _save_latency_figure(latency: pd.DataFrame, path: Path) -> None:
     p95_x = x_pos(p95)
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
   <rect width="100%" height="100%" fill="white" />
-  <text x="{width / 2:.0f}" y="32" text-anchor="middle" font-family="Arial" font-size="22">PS5 Q1: Vectorized quote-path latency</text>
+  <text x="{width / 2:.0f}" y="32" text-anchor="middle" font-family="Arial" font-size="22">Latency Distribution for One Full Quote-Grid Update</text>
   <line x1="{margin_left}" y1="{margin_top + plot_h}" x2="{margin_left + plot_w}" y2="{margin_top + plot_h}" stroke="black" />
   <line x1="{margin_left}" y1="{margin_top}" x2="{margin_left}" y2="{margin_top + plot_h}" stroke="black" />
   {''.join(bars)}
