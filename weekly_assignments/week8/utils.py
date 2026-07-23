@@ -173,22 +173,22 @@ def bs_greeks(S, K, T, sigma, r=0.0, option_type='C'):
     return {'delta': delta, 'gamma': gamma, 'vega': vega, 'theta': theta}
 
 
-def compute_greeks_df(strategy_df, K, r=0.0, option_type='C'):
-    """
-    Compute BS Greeks at each snapshot in strategy_df.
-    Uses Heston delta and vega where available,
-    BS gamma and theta computed from IV.
-    """
+def compute_greeks_df(df, K, r=0.0, option_type='C'):
     records = []
-    for _, row in strategy_df.iterrows():
-        g = bs_greeks(row['S'], K, row['T'], row['iv'], r, option_type)
+    for _, row in df.iterrows():
+        S     = row['S']
+        T     = row['T']
+        sigma = row['iv']
+
+        g = bs_greeks(S, K, T, sigma, r, option_type)
+
         records.append({
             'datetime': row['datetime'],
-            'S'       : row['S'],
-            'delta'   : row['delta'],   # Heston
-            'gamma'   : g['gamma'],     # BS
-            'vega'    : row['vega'],    # Heston
-            'theta'   : g['theta']      # BS
+            'S'       : S,
+            'delta'   : row['delta'] if 'delta' in row.index else g['delta'],
+            'gamma'   : g['gamma'],
+            'vega'    : row['vega']  if 'vega'  in row.index else g['vega'],
+            'theta'   : g['theta']
         })
     return pd.DataFrame(records)
 
